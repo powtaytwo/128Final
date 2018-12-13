@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>675</width>
-    <height>481</height>
+    <height>505</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,9 +17,9 @@
    <property name="geometry">
     <rect>
      <x>370</x>
-     <y>300</y>
-     <width>241</width>
-     <height>101</height>
+     <y>280</y>
+     <width>231</width>
+     <height>91</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -133,8 +133,6 @@ background-repeat: none;
      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:18pt;&quot;&gt;10.00&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
-   <zorder>label_4</zorder>
-   <zorder>label_4</zorder>
   </widget>
   <widget class="QLabel" name="label_6">
    <property name="geometry">
@@ -156,6 +154,32 @@ background-repeat: none;
    </property>
    <property name="text">
     <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_2">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>360</y>
+     <width>201</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>PAST TRANSACTIONS</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_3">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>410</y>
+     <width>201</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>EXIT</string>
    </property>
   </widget>
  </widget>

@@ -19,7 +19,8 @@ SOURCES += main.cpp\
     register_user.cpp \
     reservation.cpp \
     status.cpp \
-    summary.cpp
+    summary.cpp \
+    past.cpp
 
 HEADERS  += \
     login.h \
@@ -28,7 +29,8 @@ HEADERS  += \
     register_user.h \
     reservation.h \
     status.h \
-    summary.h
+    summary.h \
+    past.h
 
 FORMS    += \
     login.ui \
@@ -37,7 +39,8 @@ FORMS    += \
     register_user.ui \
     reservation.ui \
     status.ui \
-    summary.ui
+    summary.ui \
+    past.ui
 
 SUBDIRS += \
     Sqlite_DB.pro \

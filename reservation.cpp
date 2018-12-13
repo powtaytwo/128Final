@@ -97,46 +97,57 @@ void Reservation::update()
 
 void Reservation::on_pushButton_clicked() //GO
 {
-    status();
+    QMessageBox::StandardButton reply = QMessageBox::question(this, "Start Time? ",
+                    "Are you ready to start the time? <br> Pressing YES would redirect you to the Status Page <br> Reservation fee is 10 pesos", QMessageBox::Yes | QMessageBox::No);
+
+    if(reply == QMessageBox::Yes){
+        status();
+    }
 }
 
 void Reservation::on_pushButton_2_clicked() //CANCEL
 {
-    QSqlQuery qry;
-    QString user, spot, order, money;
-    int c = 0;
+    QMessageBox::StandardButton reply = QMessageBox::question(this, "Cancel Order? ",
+                    "Are you sure you want to cancel your order? <br> Pressing NO would redirect you to your Profile Page. <br> Reservation fee of 10 pesos will be deducted from your account.", QMessageBox::Yes | QMessageBox::No);
 
-    qry.prepare("select user_ID from User where user_status = 1");
-    qry.exec();
-    qry.next();
-    user = qry.value(0).toString();
+    if(reply == QMessageBox::Yes){
+        QSqlQuery qry;
+        QString user, spot, order, money;
+        int c = 0;
 
-    qry.prepare("select credit from User where user_status = 1");
-    qry.exec();
-    qry.next();
-    c = qry.value(0).toInt();
-    c = c - 10;
-    money = QString::number(c);
+        qry.prepare("select user_ID from User where user_status = 1");
+        qry.exec();
+        qry.next();
+        user = qry.value(0).toString();
 
-    qry.prepare("select spot_ID from Orderr where user_ID = '"+user+"' ");
-    qry.exec();
-    qry.next();
-    spot = qry.value(0).toString();
+        qry.prepare("select credit from User where user_status = 1");
+        qry.exec();
+        qry.next();
+        c = qry.value(0).toInt();
+        c = c - 10;
+        money = QString::number(c);
 
-    qry.prepare("select order_ID from Orderr where user_ID = '"+user+"' ");
-    qry.exec();
-    qry.next();
-    order = qry.value(0).toString();
+        qry.prepare("select spot_ID from Orderr where user_ID = '"+user+"' ");
+        qry.exec();
+        qry.next();
+        spot = qry.value(0).toString();
 
-    qry.exec("update Spot set spot_status = 0 where spot_ID = '"+spot+"' "); //Vacant the spot
+        qry.prepare("select order_ID from Orderr where user_ID = '"+user+"' ");
+        qry.exec();
+        qry.next();
+        order = qry.value(0).toString();
 
-    qry.exec("update User set credit = '"+money+"' where user_ID = '"+user+"' "); //decrease user's money
+        qry.exec("update Spot set spot_status = 0 where spot_ID = '"+spot+"' "); //Vacant the spot
 
-    qry.exec("DELETE FROM Orderr WHERE order_ID = '"+order+"' "); //delete the order
+        qry.exec("update User set credit = '"+money+"' where user_ID = '"+user+"' "); //decrease user's money
 
-    hide();
-    main_interface a;
-    a.setModal(true);
-    a.setWindowTitle("Profile Page");
-    a.exec();
+        qry.exec("DELETE FROM Orderr WHERE order_ID = '"+order+"' ");
+
+        hide();
+        main_interface a;
+        a.setModal(true);
+        a.setWindowTitle("Profile Page");
+        a.exec();
+    }
+
 }

@@ -16,7 +16,7 @@ Summary::Summary(QWidget *parent) :
     ui->setupUi(this);
 
     QSqlQuery qry;
-    QString name1, credit, p, user, spot1, d, t, pay, time;
+    QString name1, credit, p, user, spot1, d, t, pay, time, order;
     QFont f("Arial",11, QFont::Bold);
 
     QPixmap bkgnd("C:/Users/Lilian C/Documents/qtworkspace/128v3/128v03/images/rp.png");
@@ -46,27 +46,32 @@ Summary::Summary(QWidget *parent) :
     qry.next();
     user = qry.value(0).toString();
 
-    qry.prepare("select spot_ID from Orderr where user_ID = '"+user+"'"); //SPOT ID IN ORDER
+    qry.prepare("select order_ID from Orderr where status = 1"); //SPOT ID IN ORDER
+    qry.exec();
+    qry.next();
+    order = qry.value(0).toString();
+
+    qry.prepare("select spot_ID from Orderr where order_ID = '"+order+"'"); //SPOT ID IN ORDER
     qry.exec();
     qry.next();
     spot1 = qry.value(0).toString();
 
-    qry.prepare("select date from Orderr where user_ID = '"+user+"'"); //DATE IN ORDER
+    qry.prepare("select date from Orderr where order_ID = '"+order+"'"); //DATE IN ORDER
     qry.exec();
     qry.next();
     d = qry.value(0).toString();
 
-    qry.prepare("select time from Orderr where user_ID = '"+user+"'"); //TIME IN ORDER
+    qry.prepare("select time from Orderr where order_ID = '"+order+"'"); //TIME IN ORDER
     qry.exec();
     qry.next();
     t = qry.value(0).toString();
 
-    qry.prepare("select total_payment from Orderr where user_ID = '"+user+"'"); //TOTAL PAYMENT IN ORDER
+    qry.prepare("select total_payment from Orderr where order_ID = '"+order+"'"); //TOTAL PAYMENT IN ORDER
     qry.exec();
     qry.next();
     pay = qry.value(0).toString();
 
-    qry.prepare("select total_time from Orderr where user_ID = '"+user+"'"); //TOTAL TIME IN ORDER
+    qry.prepare("select total_time from Orderr where order_ID = '"+order+"'"); //TOTAL TIME IN ORDER
     qry.exec();
     qry.next();
     time = qry.value(0).toString();
@@ -116,7 +121,7 @@ void Summary::on_pushButton_clicked()
     //STATUS = 0 past transaction
     //STATUS = 1 current transaction
 
-    qry.exec("update Orderr set status = 0 where user_ID = '"+user+"'");
+    qry.exec("update Orderr set status = 0 where status = 1");
 
     hide();
     main_interface a;

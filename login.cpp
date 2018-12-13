@@ -20,13 +20,14 @@ Login::Login(QWidget *parent) :
     QSqlDatabase mydb;
     ui->setupUi(this);
 
-    QPixmap bkgnd("C:/Users/Lilian C/Documents/qtworkspace/128v3/128v03/images/bg1.png");
+    QPixmap bkgnd("C:/Users/Lilian C/Documents/qtworkspace/128v3/128v03/images/bg2.png");
     bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
     QPalette palette;
     palette.setBrush(QPalette::Background, bkgnd);
     this->setPalette(palette);
 
     mydb=QSqlDatabase::addDatabase("QSQLITE");
+//    mydb=QSqlDatabase::addDatabase("QMYSQL");
     mydb.setDatabaseName("C:/Users/Lilian C/Documents/qtworkspace/128v3/IParkk.db");
 
    if(!mydb.open())
@@ -66,7 +67,7 @@ void Login::on_pushButton_clicked()
 
             qry.prepare("update User set user_status =  1  where user_ID = '"+password+"'");
             qry.exec();
-            QMessageBox::warning(this, "UPDATE SUCCESS", "active column should have been updated");
+            //QMessageBox::warning(this, "UPDATE SUCCESS", "active column should have been updated");
 
             this->hide();
             main_interface a;

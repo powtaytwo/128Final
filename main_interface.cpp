@@ -1,6 +1,7 @@
 #include "main_interface.h"
 #include "ui_main_interface.h"
 #include "parking.h"
+#include "past.h"
 #include <QString>
 #include <QMessageBox>
 #include <QSqlDatabase>
@@ -64,9 +65,46 @@ main_interface::~main_interface()
 
 void main_interface::on_pushButton_clicked()
 {
+    QSqlQuery qry;
+    int c = 0;
+
+    qry.prepare("select credit from User where user_status = 1");
+    qry.exec();
+    qry.next();
+    c = qry.value(0).toInt();
+
+    if(c <= 0){
+        QMessageBox::warning(this, "ERROR", "You do not have enough credit to make a reservation. <br> Please reload and try again.");
+    }
+    else{
+        hide();
+        parking one;
+        one.setModal(true);
+        one.setWindowTitle("PARKING SPOT");
+        one.exec();
+    }
+}
+
+void main_interface::on_pushButton_2_clicked()
+{
     hide();
-    parking one;
+    Past one;
     one.setModal(true);
-    one.setWindowTitle("PARKING SPOT");
+    one.setWindowTitle("PAST TRANSACTIONS");
     one.exec();
+}
+
+void main_interface::on_pushButton_3_clicked()
+{
+    QSqlQuery qry;
+    QString user;
+
+    qry.prepare("select user_ID from User where user_status = 1");
+    qry.exec();
+    qry.next();
+    user = qry.value(0).toString();
+
+    qry.exec("update User set user_status = 0 where user_ID = '"+user+"' ");
+
+    this->close();
 }

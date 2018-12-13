@@ -82,15 +82,20 @@ void Status::summary(){
     QString tp =  QString::number(pay);
     int money = 0;
     QSqlQuery qry;
-    QString user, d, t;
+    QString user, d, t, order;
 
     qry.prepare("select user_ID from User where user_status = 1");
     qry.exec();
     qry.next();
     user = qry.value(0).toString();
 
-    qry.exec("update Orderr set total_time = '"+tt+"' where user_ID = '"+user+"' "); //UPDATE THE TOTAL TIME
-    qry.exec("update Orderr set total_payment = '"+tp+"' where user_ID = '"+user+"' "); //UPDATE THE TOTAL PAYMENT
+    qry.prepare("select order_ID from Orderr where status = 1"); //SPOT ID IN ORDER
+    qry.exec();
+    qry.next();
+    order = qry.value(0).toString();
+
+    qry.exec("update Orderr set total_time = '"+tt+"' where order_ID = '"+order+"' "); //UPDATE THE TOTAL TIME
+    qry.exec("update Orderr set total_payment = '"+tp+"' where order_ID = '"+order+"' "); //UPDATE THE TOTAL PAYMENT
 
     qry.prepare("select credit from User where user_status = 1");
     qry.exec();
@@ -105,8 +110,8 @@ void Status::summary(){
     d = QDate::currentDate().toString();
     t = QTime::currentTime().toString();
 
-    qry.exec("update Orderr set date = '"+d+"' where user_ID = '"+user+"' ");
-    qry.exec("update Orderr set time = '"+t+"' where user_ID = '"+user+"' ");
+    qry.exec("update Orderr set date = '"+d+"' where order_ID = '"+order+"' ");
+    qry.exec("update Orderr set time = '"+t+"' where order_ID = '"+order+"' ");
 
 
     hide();
